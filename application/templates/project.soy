@@ -1,0 +1,39 @@
+{namespace nujii.studio.templates.project}
+
+/**
+* Project View
+* @param title
+* @param isMuted
+* @param isArmed
+* @param isSolo
+* @param numChannels
+*/
+{template .trackList}
+<li>
+	<section>
+		<input type="text" value="{$title}" class="{css track-list-title}" />
+		<button class="btn{if $isArmed} {/if}"><i class="icon-record"></i></button>
+		<div class="btn-group">
+			<button class="btn{if $isSolo} {/if}"><i class="icon-solo"></i></button>
+			<button class="btn{if $isMuted} {/if}"><i class="icon-solo"></i></button>
+		</div>
+	</section>
+	<section>
+		 {for $i in range($numChannels)}
+		 <meter class="meter-{$i}" min="0" max="1" value="0"></meter>
+		 {/for}
+	</section>
+</li>
+{/template}
+
+/**
+* Project View
+* @param title
+* @param volume
+* @param tempo
+*/
+{template .tempView}
+<h2 class="project-title">{$title}</h2>
+<input type="range" class="project-volume" value="{$volume}" min="0" max="1" step=".01" />
+<input type="number" class="project-tempo" value="{$tempo}" min="60" max="220" />
+{/template}

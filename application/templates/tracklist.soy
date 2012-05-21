@@ -1,0 +1,39 @@
+{namespace nujii.studio.templates.tracklist}
+
+/**
+* Track View
+* @param tracks
+*/
+{template .index}
+<ol>
+{foreach $track in $tracks}
+{call .track data="$track" /}
+{/foreach}
+</ol>
+{/template}
+
+/**
+ * @param track
+ */
+{template .track}
+<li class="track-listing-track">
+	<section>
+		<span class="track-listing-track-color" style="background: {$track.color}"></span>
+		<input class="track-listing-track-title" value="{$track.title}" />
+		<button class="track-listing-track-record {if $track.isRecording}btn-pressed{/if}">R</button>
+		<button class="track-listing-track-solo {if $track.isSolo}btn-pressed{/if}">S</button>
+		<button class="track-listing-track-mute {if $track.isMuted}btn-pressed{/if}">M</button>
+	</section>
+	<section>
+		<input type="number" class="track-listing-track-volume" value="{$track.volume}" min="-80" max="10" />
+		<input type="number" class="track-listing-track-pan" value="{$track.pan}" min="-100" max="100" />
+	</section>
+	<section>
+		<label for="track-listing-track-automation"></label>
+		<select class="track-listing-track-automation">
+			<option value="volume">Volume</option>
+			<option value="pan">Pan</option>
+		</select>
+	</section>
+</li>
+{/template}

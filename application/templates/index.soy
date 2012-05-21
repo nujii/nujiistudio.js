@@ -1,0 +1,39 @@
+{namespace nujii.studio.template.index}
+
+/**
+* Layout for the site
+* @param cssUri
+* @param jsUri
+*/
+{template .layout}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Nujii Studio</title>
+        <link href="{$cssUri}" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <div id="project">
+            <section id="project-info"></section>
+            <section id="transport"></section>
+            <section><ol id="track-list"></ol></section>
+            <section id="track-view"></section>
+        </div>
+        <div id="index">
+            <ul id="project-listing"></ul>
+        </div>
+        <div id="loading"></div>
+        <script src="{$jsUri}"></script>
+    </body>
+</html>
+{/template}
+
+/**
+* This template will be rendered by SoyWeb when the user loads index.soy.
+*/
+{template .soyweb}
+{call .layout}
+{param cssUri: '//cameron-bytheways-workstation:9810/css/nujiistudio/' /}
+{param jsUri: '//cameron-bytheways-workstation:9810/compile?id=nujiistudio' /}
+{/call}
+{/template}
