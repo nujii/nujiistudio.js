@@ -1,0 +1,64 @@
+<div class="row">
+  <div class="span4">
+    <a class="caret" data-toggle="collapse" data-target="#test"></a>
+    <div class="controls">
+      <div class="row">
+
+        <div class="span3">
+
+          <div class="input-append">
+            <input class="span2" id="appendedInputButtons" size="8" type="text" {{bindAttr value="title"}} /><button {{bindAttr class="armed:active :btn"}}>
+              <span class="icon-play-circle"></span></button><button class="btn">
+              <span class="icon-volume-up"></span>
+            </button>
+          </div>
+
+          <div class="span2">
+            <div class="control-group">
+              <label class="control-label" for="track-vol">Vol</label>
+              <div class="controls">
+                <input type="range" class="span2" id="track-vol" min="-80" max="10" {{bindAttr value="volume"}}  {{action "setVolume" on="change"}}>
+                <span class="help-inline">{{volume}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="span2">
+            <div class="control-group">
+              <label class="control-label" for="track-pan">Pan</label>
+              <div class="controls">
+                <input type="range" class="span2" id="track-pan" min="-100" max="100" {{bindAttr value="pan"}}>
+                <span class="help-inline">{{pan}}</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="span1">
+          <div class="btn-group">
+            <button class="btn">
+              <span class="icon-headphones"></span>
+            </button>
+            <button class="btn">
+              <span class="icon-volume-off"></span>
+            </button>
+          </div>
+          <button class="btn">
+            <span class="icon-lock"></span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+    <span>
+      <meter value="0" min="-80" max="10">0 dB</meter>
+    </span>
+  </div>
+</div>
+<div class="row" >
+  <div class="span4" {{bindAttr id="title"}} >
+    {{view Ember.Select class="span2"}}
+    {{view Ember.Select class="span2"}}
+    <input type="range" class="span2" id="track-vol" min="-80" max="10" {{bindAttr value="volume"}}>
+  </div>
+</div>

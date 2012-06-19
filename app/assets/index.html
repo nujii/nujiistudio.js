@@ -4,20 +4,26 @@
   <meta charset="utf-8">
   <title>Nujii Studio</title>
   <link rel="stylesheet" href="stylesheets/app.css">
-  
-  <!-- Development -->
+
+  <!-- DEVELOPMENT -->
   <script>
-    window.brunch = window.brunch || {};
-    window.brunch['auto-reload'] = {enabled: true};
+      window.brunch = window.brunch || {};
+      window.brunch['auto-reload'] = {enabled: true};
+
+      window.ENV = window.ENV || {};
+      ENV.VIEW_PRESERVES_CONTEXT = true;
+      ENV.CP_DEFAULT_CACHEABLE = true;
   </script>
 
   <script src="javascripts/vendor.js"></script>
   <script src="javascripts/app.js"></script>
-  <script>require('initialize');</script>
+  <script>
+    require('initialize');
+  </script>
 </head>
 <body>
-    <script type="text/x-handlebars">
-        {{view App.Views.MyView class="well"}}
-    </script>
+  <script type="text/x-handlebars">
+    {{view App.ApplicationView}}
+  </script>
 </body>
 </html>

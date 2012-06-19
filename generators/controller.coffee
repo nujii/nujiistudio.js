@@ -1,6 +1,5 @@
 App = require 'app'
 
-module.exports = App.Controllers.#{name} = Em.Object.extend(
+module.exports = App.Controllers.#{name} = Em.Object.extend
   init: ->
-    @_super()
-)
+    @_super();

@@ -1,0 +1,1 @@
+web: brunch watch -s -m --port=80

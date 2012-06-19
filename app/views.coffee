@@ -1,3 +1,11 @@
-#load all your views here
+# load all your views here
 
-require 'views/my_view'
+#global
+require 'views/application_view'
+
+#control
+require 'views/control_view'
+
+#arrange
+require 'views/arrange_view'
+require 'views/arrange_track_view'

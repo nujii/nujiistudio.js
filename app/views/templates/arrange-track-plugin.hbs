@@ -1,0 +1,7 @@
+<div class="row" >
+  <div class="span4" {{bindAttr id="title"}} >
+    {{view Ember.Select class="span2"}}
+    {{view Ember.Select class="span2"}}
+    <input type="range" class="span2" id="track-vol" min="-80" max="10" {{bindAttr value="volume"}}>
+  </div>
+</div>

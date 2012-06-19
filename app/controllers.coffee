@@ -1,3 +1,5 @@
-#load all your controllers here
+# load all your controllers here
 
-require 'controllers/my_controller'
+require 'controllers/application_controller'
+
+require 'controllers/tracks_controller'

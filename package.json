@@ -1,7 +1,7 @@
 {
-  "author": "Your Name",
-  "name": "package-name",
-  "description": "Package description",
+  "author": "Nujii Studio",
+  "name": "nujii-studio",
+  "description": "Collaborative Digital Audio Workstation",
   "version": "0.0.1",
   "homepage": "",
   "repository": {
@@ -20,9 +20,10 @@
 
     "css-brunch": "> 1.0 < 1.3",
     "stylus-brunch": "> 1.0 < 1.3",
-    
+
     "uglify-js-brunch": "> 1.0 < 1.3",
     "clean-css-brunch": "> 1.0 < 1.3",
+
     "ember-handlebars-brunch": "git://github.com/icholy/ember-handlebars-brunch.git",
     
     "auto-reload-brunch": "> 1.0 < 1.3"
