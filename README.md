@@ -1,7 +1,15 @@
 # Nujii Studio
 JavaScript assets for Nujii Studio Digital Audio Workstation
 
-## Getting started
+## Building
+
+    npm install
+    npm build
+
+## Development
+
+    npm install -d
+    brunch watch --server
 
 Clone the repo and run `npm install` & `brunch build`.
 See more info on the [official site](http://brunch.io)
@@ -13,11 +21,3 @@ See more info on the [official site](http://brunch.io)
 then visit `localhost:3333`
 
 ## Overview
-
-
-## Other
-Software Versions used:
-
-* jQuery 1.7.2
-* Ember latest (master)
-* Bootstrap 2.0.4
