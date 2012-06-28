@@ -1,7 +1,34 @@
 @import 'nib'
 
+@import 'mixins'
+
+control-height = 60px
+
 .control
   z-index 1000
-  height 59px
+  height control-height
   position relative
   background linear-gradient(top, #E6E6E7, #B0B0B0)
+
+  .transport
+    absolute left 20px
+    vert-center 27px
+
+  .time-display
+    center 200px
+    vert-center 35px
+    background linear-gradient(bottom, 20% #242424, 40% #434343, #929292)
+    border-radius 5px
+    text-align center
+    color lighten(#006896, 40%)
+
+  .time-display-background
+    center 212px
+    vert-center 45px
+    background linear-gradient(top, #BABABA, #D2D2D2)
+    border-radius 5px
+    box-shadow 0px 1px 3px #868686
+
+  .settings-buttons
+    absolute right 20px
+    vert-center 27px

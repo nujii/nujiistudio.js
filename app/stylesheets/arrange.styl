@@ -7,9 +7,11 @@ initial-sidebar-width = 250px
 initial-plugin-width = 200px
 
 .arrange
-  position relative
+  position absolute
   overflow auto
-  height 100%
+  top 60px
+  bottom 0px
+  width 100%
 
 .arrange-controls
   height arrange-header-height
@@ -22,6 +24,7 @@ initial-plugin-width = 200px
     absolute top 3px left 10px
 
   .title
+    top 5px
     display inline
     text-align center
     center 100px
@@ -38,12 +41,18 @@ initial-plugin-width = 200px
   z-index 99
 
   .title
+    top 5px
     display inline
     text-align center
     center 100px
     no-select()
 
+.arrange-timeline
+  fixed left initial-sidebar-width+initial-plugin-width
+  
+
 .arrange-tracklist
+  float left
   relative top arrange-header-height
   width initial-sidebar-width
   z-index 98
@@ -72,9 +81,10 @@ initial-plugin-width = 200px
       absolute right 28px top 42px
 
 .arrange-pluginlist
+  float left
   height 100%
   width initial-plugin-width
-  absolute left initial-sidebar-width top arrange-header-height
+  relative top arrange-header-height
   z-index 97
 
 .arrange-trackbody
