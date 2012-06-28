@@ -18,7 +18,7 @@ main-background = #232323
 split-view-divider-color = #5C5C5C
 
 body
-  background-color main-background
+  background main-background
 
 .arrange-controls
   background linear-gradient(top, 90% sidebar-background, black)
@@ -36,8 +36,11 @@ body
   .title
     color plugin-font-color
 
+.arrange-timeline
+  background linear-gradient(top, #153B5F, #225583)
+
 .arrange-tracklist
-  background-color sidebar-background
+  background sidebar-background
   border-right #5C5C5C 2px solid
 
   .arrange-track
@@ -49,12 +52,20 @@ body
       border-top #1E1E1E 1px solid
       border-bottom #363636 1px solid
       color #FFFFFF
+      font-size .85em
 
     .track-color-bar
       background linear-gradient(top, #1B3E5F, 10% #225583)
 
+    .lock-button
+      border-radius 30px
+      bootstrap-button #BBB lighten(sidebar-background, 20%) darken(sidebar-background, 30%)
+
+      span
+        margin-left -2px
+
 .arrange-pluginlist
-  background-color plugin-background
+  background plugin-background
 
 .arrange-trackbody
-  background-color main-background
+  background main-background
