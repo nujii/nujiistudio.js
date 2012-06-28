@@ -11,9 +11,6 @@ JavaScript assets for Nujii Studio Digital Audio Workstation
     npm install -d
     brunch watch --server
 
-Clone the repo and run `npm install` & `brunch build`.
-See more info on the [official site](http://brunch.io)
-
 ## Usage
 
     npm start

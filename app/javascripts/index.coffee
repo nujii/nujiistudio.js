@@ -15,8 +15,7 @@ App.Router = Em.Router.extend
     index: Em.State.extend
       route: "/"
       connectOutlets: (router, context) ->
-        appController = router.get("applicationController")
-        appController.connectOutlet "home"
+        router.get("applicationController").connectOutlet "home"
     
     arrange: Em.State.extend
       route: "/arrange"

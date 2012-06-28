@@ -18,9 +18,7 @@ exports.config =
           'vendor/scripts/jquery-1.7.2.js',
           'vendor/scripts/handlebars-1.0.0.beta.6.js',
           'vendor/scripts/ember-latest.js',
-          'vendor/scripts/flame.js',
-          'vendor/scripts/flame_inspector.js',
-          'vendor/scripts/bootstrap.js',
+          'vendor/scripts/bootstrap.js'
           ]
 
     stylesheets:

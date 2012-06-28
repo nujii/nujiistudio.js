@@ -12,7 +12,7 @@
     "node": "~0.6.10"
   },
   "scripts": {
-    "start": "./node_modules/.bin/brunch watch --server",
+    "start": "./node_modules/brunch/bin/brunch watch --server",
     "postinstall": "touch ./node_modules/bootstrap/index.js && cp ./node_modules/bootstrap/docs/assets/js/bootstrap.js ./vendor/scripts/bootstrap.js"
   },
   "dependencies": {

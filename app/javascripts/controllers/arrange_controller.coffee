@@ -1,5 +1,5 @@
 
 module.exports = Em.Controller.extend
   title: (()->
-    return 'Test';
+    return 'Test'
   ).property('title')

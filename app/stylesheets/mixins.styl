@@ -1,0 +1,23 @@
+
+no-select()
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor default
+
+center(w)
+  width w
+  margin-left: -(w/2.0)
+  absolute left 50%
+
+bootstrap-button(color, darkened=darken(color, 30%), border=lighten(color, 30%))
+  background-repeat repeat-x
+  background-image linear-gradient(top, color, darkened)
+  border-color border border hsla(border)
+  background-color hsla(darkened) !important
+  color lighten(border,10%) !important
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.36)
+  -webkit-font-smoothing antialiased

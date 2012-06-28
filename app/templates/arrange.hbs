@@ -1,39 +1,51 @@
 
-<div class="row">
-  <div class="span4">
-    <div class="row">
-      <div class="span1">
-        <button type="button" class="btn btn-mini">
-          <span class="icon-align-justify"></span>
-        </button>
-        <button type="button" class="btn btn-mini">
-          <span class="icon-plus"></span>
-        </button>
-      </div>
-
-      <div class="span2">
-        <h3 class="center">Tracks</h3>
-      </div>
-
-      <div class="span1">
-        <div class="btn-group">
-          <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">Plugins<span class="caret"></span></button>
-          <ul class="dropdown-menu">
-            <li><a href="#">Reverb</a></li>
-            <li><a href="#">Compressor</a></li>
-            <li><a href="#">Something Cool</a></li>
-          </ul>
-        </div>
-      </div>
-
+{{view App.ControlView}}
+<div class="arrange">
+  <section class="arrange-controls">
+    <div class="buttons">
+      <button type="button" class="btn btn-mini">
+        <span class="icon-align-justify icon-white"></span>
+      </button>
+      <button type="button" class="btn btn-mini">
+        <span class="icon-plus icon-white"></span>
+      </button>
     </div>
-  </div>
-  <div class="span8">
-    <div class="row">
-      <div class="span2">
-        <h3 class="center">Time Thingy</h3>
-      </div>
-
+    <h3 class="title">Tracks</h3>
+    <div class="btn-group dropdown">
+      <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">Plugins<span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li><a href="#">Reverb</a></li>
+        <li><a href="#">Compressor</a></li>
+        <li><a href="#">Something Cool</a></li>
+      </ul>
     </div>
-  </div>
+  </section>
+  <section class="arrange-pluginheader">
+    <h3 class="title">Plugins</h3>
+  </section>
+  <section class="arrange-timeline">
+
+  </section>
+  <section class="arrange-tracklist">
+    {{view App.ArrangeTrackView}}
+    {{view App.ArrangeTrackView}}
+    {{view App.ArrangeTrackView}}
+    {{view App.ArrangeTrackView}}
+    {{view App.ArrangeTrackView}}
+    {{view App.ArrangeTrackView}}
+    {{view App.ArrangeTrackView}}
+    {{view App.ArrangeTrackView}}
+    {{view App.ArrangeTrackView}}
+    {{view App.ArrangeTrackView}}
+    {{view App.ArrangeTrackView}}
+    {{view App.ArrangeTrackView}}
+    {{view App.ArrangeTrackView}}
+    {{view App.ArrangeTrackView}}
+  </section>
+  <section class="arrange-pluginlist">
+
+  </section>
+  <section class="arrange-trackbody scrollable">
+    
+  </section>
 </div>
