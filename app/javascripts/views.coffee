@@ -8,5 +8,5 @@ App.ControlView = require './views/control_view'
 
 #arrange
 App.ArrangeView = require './views/arrange_view'
+App.ArrangeHeaderView = require './views/arrange_header_view'
 App.ArrangeTrackView = require './views/arrange_track_view'
-App.ArrangeTrackContentView = require './views/arrange_track_content_view'

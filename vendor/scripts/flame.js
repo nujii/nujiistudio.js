@@ -3135,8 +3135,14 @@ Flame.SplitView = Flame.View.extend({
     })
 });
 
+
+/*
+ * HotizontalSplitView divides the current view between topView and bottomView using a horizontal
+ * dividerView.
+ */
+
 Flame.HorizontalSplitView = Flame.SplitView.extend({
-    classNames: 'flame-vertical-split-view'.w(),
+    classNames: 'flame-horizontal-split-view'.w(),
     childViews: 'topView dividerView bottomView'.w(),
     topHeight: 100,
     bottomHeight: 100,
@@ -3231,16 +3237,16 @@ Flame.HorizontalSplitView = Flame.SplitView.extend({
     },
 
     startResize: function(event) {
-        this._resizeStartY = evt.pageY;
+        this._resizeStartY = event.pageY;
         this._resizeStartTopHeight = this.get('topHeight');
         this._resizeStartBottomHeight = this.get('bottomHeight');
     },
 
     resize: function(event) {
         if (this.get('flex') === 'bottom') {
-            this.set('topHeight', this._resizeStartTopHeight + (evt.pageY - this._resizeStartY));
+            this.set('topHeight', this._resizeStartTopHeight + (event.pageY - this._resizeStartY));
         } else {
-            this.set('bottomHeight', this._resizeStartBottomHeight - (evt.pageY - this._resizeStartY));
+            this.set('bottomHeight', this._resizeStartBottomHeight - (event.pageY - this._resizeStartY));
         }
     }
 });
@@ -6131,8 +6137,14 @@ Flame.TreeView = Flame.ListView.extend({
 
 });
 
+
+/*
+ * VerticalSplitView divides the current view between leftView and rightView using a vertical
+ * dividerView.
+ */
+
 Flame.VerticalSplitView = Flame.SplitView.extend({
-    classNames: 'flame-horizontal-split-view'.w(),
+    classNames: 'flame-vertical-split-view'.w(),
     childViews: 'leftView dividerView rightView'.w(),
     leftWidth: 100,
     rightWidth: 100,
@@ -6558,4 +6570,4 @@ Flame.Validator.number = Flame.Validator.create({
         return (value === '') || !(isNaN(value) || isNaN(parseFloat(value)));
     }
 });
-Flame.VERSION = '0.2.1-53-g422f03e-dirty';
+Flame.VERSION = '0.2.1-62-g2a91998';

@@ -26,7 +26,7 @@ exports.config =
       joinTo: 
         'stylesheets/app.css': /^(app|vendor)/
       order:
-        before: ['vendor/styles/bootstrap.less']
+        before: ['vendor/styles/flame.css','vendor/styles/bootstrap.less']
 
     templates:
       defaultExtension: 'hbs'

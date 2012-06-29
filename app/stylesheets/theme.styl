@@ -17,6 +17,12 @@ main-background = #232323
 //Elements
 split-view-divider-color = #5C5C5C
 
+.control
+  background linear-gradient(top, #E6E6E7, #B0B0B0)
+
+  .btn
+    bootstrap-button #FBFBFB #777777 #C7C7C7
+
 body
   background main-background
 
@@ -39,12 +45,23 @@ body
 .arrange-timeline
   background linear-gradient(top, #153B5F, #225583)
 
+.arrange-sidebar
+  background sidebar-background
+
+
+.arrange-sidebar::-webkit-scrollbar
+  width 0px !important
+  
+
 .arrange-tracklist
   background sidebar-background
   border-right #5C5C5C 2px solid
 
   .arrange-track
     background linear-gradient(bottom, sidebar-background, 99% sidebar-background, 99% #7A7A7A)
+
+    .btn
+      bootstrap-button #FBFBFB #777777 darken(sidebar-background, 10%)
 
     .track-title
       background linear-gradient(top, #1E1E1E, 40% #363636)
@@ -59,10 +76,13 @@ body
 
     .lock-button
       border-radius 30px
-      bootstrap-button #BBB lighten(sidebar-background, 20%) darken(sidebar-background, 30%)
+      bootstrap-button #BBB, lighten(sidebar-background, 20%), darken(sidebar-background, 30%)
 
       span
         margin-left -2px
+
+  .arrange-track.is-selected
+    background linear-gradient(top, #153B5F, #225583) !important
 
 .arrange-pluginlist
   background plugin-background

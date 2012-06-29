@@ -1,7 +1,6 @@
 
-module.exports = Em.Controller.extend
-  
-  scrollBarWidth: (()->
+module.exports =
+  scrollBarWidth: ()->
     wNoScroll = 0
     wScroll = 0
 
@@ -37,4 +36,3 @@ module.exports = Em.Controller.extend
 
     # Pixel width of the scroller
     (wNoScroll - wScroll)
-  ).property('scrollBarWidth').cacheable()

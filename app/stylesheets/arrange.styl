@@ -6,19 +6,7 @@ arrange-header-height = 27px
 initial-sidebar-width = 250px
 initial-plugin-width = 200px
 
-.arrange
-  position absolute
-  overflow auto
-  top 60px
-  bottom 0px
-  width 100%
-
 .arrange-controls
-  float left
-  height arrange-header-height
-  width initial-sidebar-width
-  position relative
-  z-index 100
 
   .buttons
     display inline
@@ -49,24 +37,16 @@ initial-plugin-width = 200px
     center 100px
     no-select()
 
-
-.arrange-timeline
-  width 2000px
-  z-index 98
-  height arrange-header-height
-  position relative
-
 .arrange-tracklist
-  float left
-  width initial-sidebar-width
-  z-index 97
+
+  -webkit-overflow-scrolling: touch
 
   .arrange-track
     position relative
     height 75px
       
     .btn
-      padding 2px 6px 4px
+      padding 4px 6px 4px
 
     .track-color-bar
       absolute top left
@@ -91,16 +71,13 @@ initial-plugin-width = 200px
   width initial-plugin-width
   z-index 96
 
-.arrange-trackbody
-  overflow-x auto
-  overflow-y hidden
-  float left
-  width 60%
-  z-index 95
+.arrange-content
+
+  -webkit-overflow-scrolling: touch
 
   .track-content
     height 75px
-    width 1500px
+    width 1200px
 
     img
       height 100%

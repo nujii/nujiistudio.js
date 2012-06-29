@@ -1,5 +1,14 @@
 App = require 'app'
 
-module.exports = App.ArrangeTrackContentView = Em.View.extend
+module.exports = Flame.ListItemView.extend
 
-  templateName: require 'templates/arrange-track-content-view'
+  classNames: 'track-content'
+
+  templateBinding: '^controller.tracks'
+
+  handlebars:
+    """
+    <div class="">
+      <img src="images/track-test.png">
+    </div>
+    """
