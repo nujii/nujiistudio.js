@@ -6,6 +6,16 @@ arrange-header-height = 27px
 initial-sidebar-width = 250px
 initial-plugin-width = 200px
 
+.btn
+  cursor default
+
+.btn:hover
+  background-position: 0 0;
+  transition(background-position, 0, linear)
+
+.btn:active
+  background-position 0 -15px
+
 .arrange-controls
 
   .buttons
@@ -72,6 +82,9 @@ initial-plugin-width = 200px
   z-index 96
 
 .arrange-content
+
+  overflow-x scroll
+  overflow-y auto
 
   -webkit-overflow-scrolling: touch
 

@@ -13,26 +13,7 @@ module.exports = Flame.VerticalSplitView.extend
 
     classNames: 'arrange-controls'
 
-    handlebars:
-      """
-      <div class="buttons">
-      <button type="button" class="btn btn-mini">
-        <span class="icon-align-justify icon-white"></span>
-      </button>
-      <button type="button" class="btn btn-mini">
-        <span class="icon-plus icon-white"></span>
-      </button>
-    </div>
-    <h4 class="title">Tracks</h4>
-    <div class="btn-group dropdown">
-      <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">Plugins<span class="caret"></span></button>
-      <ul class="dropdown-menu">
-        <li><a href="#">Reverb</a></li>
-        <li><a href="#">Compressor</a></li>
-        <li><a href="#">Something Cool</a></li>
-      </ul>
-    </div>
-      """
+    template: Em.TEMPLATES[require 'templates/arrange-track-header']
 
   rightView: Flame.VerticalSplitView.extend
 
@@ -40,7 +21,7 @@ module.exports = Flame.VerticalSplitView.extend
       height: 27
       width: '100%'
 
-    leftWidth: 200
+    leftWidth: 0
 
     leftView: Flame.View.extend
 

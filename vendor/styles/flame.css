@@ -202,6 +202,10 @@ body {
       filter: none;
       background: #EEE; }
   .flame-button-view.flame-checkbox-view .flame-checkbox-box {
+    background: #f5f5f5;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFFFF', endColorstr='#FFF5F5F5');
+    background: -webkit-gradient(linear, left top, left bottom, from(white), to(#f5f5f5));
+    background: -moz-linear-gradient(top, white, #f5f5f5);
     position: absolute;
     border: 1px solid #888;
     width: 12px;
@@ -382,7 +386,7 @@ body {
 .flame-tree-item-view .flame-tree-item-view-container:hover .flame-tree-view-toggle span {
   color: #27a; }
 
-.flame-horizontal-split-view .flame-split-view-divider {
+.flame-vertical-split-view .flame-split-view-divider {
   border-style: none solid none solid;
   background: #d8d8d8;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFF7F7F7', endColorstr='#FFD8D8D8', GradientType=1);
@@ -390,7 +394,7 @@ body {
   background: -moz-linear-gradient(left, #f7f7f7, #d8d8d8);
   cursor: col-resize; }
 
-.flame-vertical-split-view .flame-split-view-divider {
+.flame-horizontal-split-view .flame-split-view-divider {
   border-style: solid none solid none;
   background: #d8d8d8;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFF7F7F7', endColorstr='#FFD8D8D8', GradientType=0);
@@ -524,7 +528,7 @@ body {
       background: url("../images/triangle_right.png") no-repeat 50% 50%; }
 
 .ember-view {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+  font-family: 'Lucida Sans', 'Lucida Grande', Verdana, Arial, sans-serif; }
 
 input[type="password"] {
   font-family: 'Lucida Grande', 'Microsoft Sans Serif', sans-serif; }

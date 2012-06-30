@@ -13,7 +13,7 @@ module.exports = Flame.VerticalSplitView.extend
     layout:
       width: '100%'
 
-    leftWidth: 200
+    leftWidth: 0
 
     leftView: Flame.View.extend
 
