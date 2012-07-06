@@ -27,7 +27,7 @@
     "node": "~0.6.10"
   },
   "scripts": {
-    "start": "grunt server",
+    "start": "grunt dev",
     "test": "grunt test",
     "postinstall": "touch ./node_modules/bootstrap/index.js && cp ./node_modules/bootstrap/docs/assets/js/bootstrap.js ./vendor/javascripts/bootstrap.js"
   },
