@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Nujii Studio Tests</title>
+    <link rel="stylesheet" href="../node_modules/mocha/mocha.css" type="text/css" media="screen" title="no title" charset="utf-8">
+</head>
+<body>
+    <div id="mocha"></div>
+
+    <!-- Dependencies -->
+    <script src="../dist/javascripts/vendor.js"></script>
+
+    <script src="../node_modules/mocha/mocha.js"></script>
+    <script src="../node_modules/chai/chai.js"></script>
+    <script>mocha.setup('bdd');</script>
+    <script>minispade.register('chai','(function(){return function(exports, require, module){module.exports = window.chai}}).call(this);');</script>
+
+    <!-- App -->
+    <script src="../dist/javascripts/nujiistudio.js"></script>
+    <!-- App Tests -->
+    <script src="specs.js"></script>
+
+    <!-- Setup -->
+    <script type="text/javascript" charset="utf-8">
+        $(function(){
+            mocha.run();
+
+            require('test/app_test');
+        })
+    </script>
+</body>
+</html>

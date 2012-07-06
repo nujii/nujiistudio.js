@@ -1,1 +1,0 @@
-web: brunch watch -s -m --port=$PORT

@@ -9,7 +9,6 @@ JavaScript assets for Nujii Studio Digital Audio Workstation
 ## Development
 
     npm install -d
-    brunch watch --server
 
 ## Usage
 
