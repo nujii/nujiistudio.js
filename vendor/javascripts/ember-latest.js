@@ -1,5 +1,5 @@
-// Version: v0.9.8.1-452-gdca2ca4
-// Last commit: dca2ca4 (2012-06-27 08:36:22 -0700)
+// Version: v0.9.8.1-476-g3fb87cf
+// Last commit: 3fb87cf (2012-07-05 09:08:23 -0700)
 
 
 (function() {
@@ -136,8 +136,8 @@ window.ember_deprecateFunc  = Ember.deprecateFunc("ember_deprecateFunc is deprec
 
 })();
 
-// Version: v0.9.8.1-452-gdca2ca4
-// Last commit: dca2ca4 (2012-06-27 08:36:22 -0700)
+// Version: v0.9.8.1-476-g3fb87cf
+// Last commit: 3fb87cf (2012-07-05 09:08:23 -0700)
 
 
 (function() {
@@ -1414,11 +1414,6 @@ function normalizeTuple(target, path) {
   return TUPLE_RET;
 }
 
-/** @private */
-Ember.isGlobal = function(path) {
-  return IS_GLOBAL.test(path);
-};
-
 /**
   @private
 
@@ -1482,7 +1477,8 @@ Ember.getPath = function(root, path) {
 Ember.setPath = function(root, path, value, tolerant) {
   var keyName;
 
-  if (typeof root === 'string' && IS_GLOBAL.test(root)) {
+  if (typeof root === 'string') {
+    Ember.assert("Path '" + root + "' must be global if no root is given.", IS_GLOBAL.test(root));
     value = path;
     path = root;
     root = null;
@@ -1536,7 +1532,7 @@ Ember.trySetPath = function(root, path, value) {
   @returns Boolean
 */
 Ember.isGlobalPath = function(path) {
-  return !HAS_THIS.test(path) && IS_GLOBAL.test(path);
+  return IS_GLOBAL.test(path);
 };
 
 })();
@@ -9296,6 +9292,8 @@ Ember.ArrayProxy = Ember.Object.extend(Ember.MutableArray,
     var content = get(this, 'content'),
         len     = content ? get(content, 'length') : 0;
 
+    Ember.assert("Can't set ArrayProxy's content to itself", content !== this);
+
     if (content) {
       content.addArrayObserver(this, {
         willChange: 'contentArrayWillChange',
@@ -9321,6 +9319,8 @@ Ember.ArrayProxy = Ember.Object.extend(Ember.MutableArray,
   _arrangedContentDidChange: Ember.observer(function() {
     var arrangedContent = get(this, 'arrangedContent'),
         len = arrangedContent ? get(arrangedContent, 'length') : 0;
+
+    Ember.assert("Can't set ArrayProxy's content to itself", arrangedContent !== this);
 
     if (arrangedContent) {
       arrangedContent.addArrayObserver(this, {
@@ -9519,6 +9519,10 @@ Ember.ObjectProxy = Ember.Object.extend(
     @default null
   */
   content: null,
+  /** @private */
+  _contentDidChange: Ember.observer(function() {
+    Ember.assert("Can't set ObjectProxy's content to itself", this.get('content') !== this);
+  }, 'content'),
   /** @private */
   delegateGet: function (key) {
     var content = get(this, 'content');
@@ -10632,8 +10636,16 @@ var get = Ember.get, set = Ember.set;
 Ember.HistoryLocation = Ember.Object.extend({
   init: function() {
     set(this, 'location', get(this, 'location') || window.location);
+    set(this, '_initialURL', get(this, 'location').pathname);
     set(this, 'callbacks', Ember.A());
   },
+
+  /**
+    @private
+
+    Used to give history a starting reference
+   */
+  _initialURL: null,
 
   /**
     @private
@@ -10650,12 +10662,13 @@ Ember.HistoryLocation = Ember.Object.extend({
     Uses `history.pushState` to update the url without a page reload.
   */
   setURL: function(path) {
-    var state = window.history.state;
+    var state = window.history.state,
+        initialURL = get(this, '_initialURL');
+
     if (path === "") { path = '/'; }
-    // We only want pushState to be executed if we are passing
-    // in a new path, otherwise a new state will be inserted
-    // for the same path.
-    if ((!state && path !== '/') || (state && state.path !== path)) {
+
+    if ((initialURL && initialURL !== path) || (state && state.path !== path)) {
+      set(this, '_initialURL', null);
       window.history.pushState({ path: path }, null, path);
     }
   },
@@ -11575,6 +11588,17 @@ var childViewsProperty = Ember.computed(function() {
   return ret;
 }).property().cacheable();
 
+var controllerProperty = Ember.computed(function(key, value) {
+  var parentView;
+
+  if (arguments.length === 2) {
+    return value;
+  } else {
+    parentView = get(this, 'parentView');
+    return parentView ? get(parentView, 'controller') : null;
+  }
+}).property().cacheable();
+
 var VIEW_PRESERVES_CONTEXT = Ember.VIEW_PRESERVES_CONTEXT;
 Ember.warn("The way that the {{view}} helper affects templates is about to change. Previously, templates inside child views would use the new view as the context. Soon, views will preserve their parent context when rendering their template. You can opt-in early to the new behavior by setting `ENV.VIEW_PRESERVES_CONTEXT = true`. For more information, see https://gist.github.com/2494968. You should update your templates as soon as possible; this default will change soon, and the option will be eliminated entirely before the 1.0 release.", VIEW_PRESERVES_CONTEXT);
 
@@ -12043,17 +12067,7 @@ Ember.View = Ember.Object.extend(Ember.Evented,
 
     @type Object
   */
-  controller: Ember.computed(function(key, value) {
-    var parentView;
-
-    if (arguments.length === 2) {
-      return value;
-    } else {
-      parentView = get(this, 'parentView');
-      return parentView ? get(parentView, 'controller') : null;
-    }
-  }).property().cacheable(),
-
+  controller: controllerProperty,
   /**
     A view may contain a layout. A layout is a regular template but
     supersedes the `template` property during rendering. It is the
@@ -12118,20 +12132,22 @@ Ember.View = Ember.Object.extend(Ember.Evented,
     to be re-rendered.
   */
   _context: Ember.computed(function(key, value) {
-    var parentView, controller;
+    var parentView, context;
 
     if (arguments.length === 2) {
       return value;
     }
 
     if (VIEW_PRESERVES_CONTEXT) {
-      if (controller = get(this, 'controller')) {
-        return controller;
+      if (Ember.meta(this).descs.controller !== controllerProperty) {
+        if (context = get(this, 'controller')) {
+          return context;
+        }
       }
 
       parentView = get(this, '_parentView');
-      if (parentView) {
-        return get(parentView, '_context');
+      if (parentView && (context = get(parentView, '_context'))) {
+        return context;
       }
     }
 
@@ -14802,6 +14818,12 @@ Ember.State = Ember.Object.extend(Ember.Evented,
   }).cacheable(),
 
   /**
+    A boolean value indicating whether the state takes a context.
+    By default we assume all states take contexts.
+  */
+  hasContext: true,
+
+  /**
     This is the default transition event.
 
     @event
@@ -15321,7 +15343,6 @@ Ember.StateManager = Ember.State.extend(
   
   send: function(event, context) {
     Ember.assert('Cannot send event "' + event + '" while currentState is ' + get(this, 'currentState'), get(this, 'currentState'));
-    if (arguments.length === 1) { context = {}; }
     return this.sendRecursively(event, get(this, 'currentState'), context);
   },
 
@@ -15470,7 +15491,7 @@ Ember.StateManager = Ember.State.extend(
           exitStates.shift();
         }
 
-        currentState.pathsCache[name] = {
+        currentState.pathsCache[path] = {
           exitStates: exitStates,
           enterStates: enterStates,
           resolveState: resolveState
@@ -15488,7 +15509,7 @@ Ember.StateManager = Ember.State.extend(
           exitStates.unshift(state);
         }
 
-        useContext = context && (!get(state, 'isRoutable') || get(state, 'isDynamic'));
+        useContext = context && get(state, 'hasContext');
         matchedContexts.unshift(useContext ? contexts.pop() : null);
       }
 
@@ -15500,6 +15521,7 @@ Ember.StateManager = Ember.State.extend(
           state = getPath(state, 'states.'+initialState);
           if (!state) { break; }
           enterStates.push(state);
+          matchedContexts.push(undefined);
         }
 
         while (enterStates.length > 0) {
@@ -15730,9 +15752,10 @@ Ember.Routable = Ember.Mixin.create({
   /**
     @private
 
-    Check whether the route has dynamic segments
+    Check whether the route has dynamic segments and therefore takes
+    a context.
   */
-  isDynamic: Ember.computed(function() {
+  hasContext: Ember.computed(function() {
     var routeMatcher = get(this, 'routeMatcher');
     if (routeMatcher) {
       return routeMatcher.identifiers.length > 0;
@@ -16337,7 +16360,7 @@ var get = Ember.get, getPath = Ember.getPath, set = Ember.set;
         {{/each}}
       </script>
 
-  See Handlebars.helpers.actions for additional usage examples.
+  See Handlebars.helpers.action for additional usage examples.
 
 
   ## Changing View Hierarchy in Response To State Change
@@ -17957,7 +17980,7 @@ EmberHandlebars.registerHelper('with', function(context, options) {
 
     Ember.assert("You must pass a block to the with helper", options.fn && options.fn !== Handlebars.VM.noop);
 
-    if (Ember.isGlobal(path)) {
+    if (Ember.isGlobalPath(path)) {
       Ember.bind(options.data.keywords, keywordName, path);
     } else {
       normalized = normalizePath(this, path, options.data);
@@ -18937,6 +18960,7 @@ ActionHelper.registerAction = function(actionName, eventName, target, view, cont
       if (target.isState && typeof target.send === 'function') {
         return target.send(actionName, event);
       } else {
+        Ember.assert(Ember.String.fmt('Target %@ does not have action %@', [target, actionName]), target[actionName]);
         return target[actionName].call(target, event);
       }
     }
@@ -20044,7 +20068,7 @@ Ember.Handlebars.bootstrap = function(ctx) {
       // id if no name is found.
       templateName = script.attr('data-template-name') || script.attr('id'),
       template = compile(script.html()),
-      view, viewPath, elementId, tagName, options;
+      view, viewPath, elementId, options;
 
     if (templateName) {
       // For templates which have a name, we save them and then remove them from the DOM
@@ -20073,13 +20097,8 @@ Ember.Handlebars.bootstrap = function(ctx) {
       // Look for data-element-id attribute.
       elementId = script.attr('data-element-id');
 
-      // Users can optionally specify a custom tag name to use by setting the
-      // data-tag-name attribute on the script tag.
-      tagName = script.attr('data-tag-name');
-
       options = { template: template };
       if (elementId) { options.elementId = elementId; }
-      if (tagName)   { options.tagName   = tagName; }
 
       view = view.create(options);
 
@@ -20112,8 +20131,8 @@ Ember.$(document).ready(
 
 })();
 
-// Version: v0.9.8.1-452-gdca2ca4
-// Last commit: dca2ca4 (2012-06-27 08:36:22 -0700)
+// Version: v0.9.8.1-476-g3fb87cf
+// Last commit: 3fb87cf (2012-07-05 09:08:23 -0700)
 
 
 (function() {

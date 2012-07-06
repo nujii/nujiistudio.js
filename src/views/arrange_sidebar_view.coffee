@@ -7,8 +7,8 @@ module.exports = Flame.ListView.extend
   contentBinding: 'App.router.tracksController.tracks'
 
   itemViewClass: require 'views/arrange_track_view'
-  allowSelection: false
-  allowReordering: false
+  allowSelection: true
+  allowReordering: true
 
   didInsertElement: ()->
     $(@$()).css('margin-bottom', require('lib/util').scrollBarWidth())

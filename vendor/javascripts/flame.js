@@ -339,15 +339,13 @@ Ember.Handlebars.registerHelper('column', function(path) {
 if (Ember.$.browser.msie && Ember.$.browser.version < 10) {
     Ember.$(function() {
         Ember.$('body').on('selectstart', function(e) {
-            if (['INPUT', 'TEXTAREA'].contains(e.target.tagName) || $(e.target).parents().andSelf().is('.is-selectable')) {
-                return true;
-            } else {
-                return false;
-            }
+            var target = Ember.$(e.target);
+            return ['INPUT', 'TEXTAREA'].contains(e.target.tagName) ||
+                target.parents().andSelf().is('.is-selectable') ||
+                target.attr('contenteditable') === 'true';
         });
     });
 }
-
 ;
 Flame.imagePath = 'images/';
 
@@ -5168,13 +5166,13 @@ Flame.TableDataView = Flame.View.extend(Flame.Statechart, {
             var dataCell = owner.get('selectedDataCell');
             var readOnlyValue = owner.editableValue(dataCell, true);
             selection.html(readOnlyValue);
-            selection.addClass('read-only');
+            selection.addClass('read-only is-selectable');
         },
 
         exitState: function() {
             var selection = this.getPath('owner.selection');
             selection.html('');
-            selection.removeClass('read-only');
+            selection.removeClass('read-only is-selectable');
         },
 
         _invokeInSelected: function(action) {
@@ -6570,4 +6568,4 @@ Flame.Validator.number = Flame.Validator.create({
         return (value === '') || !(isNaN(value) || isNaN(parseFloat(value)));
     }
 });
-Flame.VERSION = '0.2.1-62-g2a91998';
+Flame.VERSION = '0.2.1-66-gdc3ac90';

@@ -5,15 +5,21 @@ module.exports = Flame.VerticalSplitView.extend
   classNames: 'scrollable'
 
   leftWidth: 250
-  minLeftWidth: 250
+
+  allowResizing: false
+  dividerThickness: 0
 
   leftView: require 'views/arrange_sidebar_view'
+
+  controller: require 'controllers/tracks_controller'
 
   rightView: Flame.VerticalSplitView.extend
     layout:
       width: '100%'
 
-    leftWidth: 200
+    leftWidth: 0
+    allowResizing: false
+    dividerThickness: 0
 
     leftView: Flame.View.extend
 

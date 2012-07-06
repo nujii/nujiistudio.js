@@ -9,6 +9,11 @@ module.exports = Flame.VerticalSplitView.extend
   leftWidth: 250
   minLeftWidth: 250
 
+  allowResizing: false
+  dividerThickness: 0
+
+  classNames: 'arrange-header'
+
   leftView: Flame.View.extend
 
     classNames: 'arrange-controls'
@@ -19,7 +24,7 @@ module.exports = Flame.VerticalSplitView.extend
       <button type="button" class="btn btn-mini">
         <span class="icon-align-justify icon-white"></span>
       </button>
-      <button type="button" class="btn btn-mini">
+      <button {{action controller.addTrack}} type="button" class="btn btn-mini">
         <span class="icon-plus icon-white"></span>
       </button>
     </div>
@@ -42,7 +47,9 @@ module.exports = Flame.VerticalSplitView.extend
       height: 27
       width: '100%'
 
-    leftWidth: 200
+    leftWidth: 0
+    allowResizing: false
+    dividerThickness: 0
 
     leftView: Flame.View.extend
 

@@ -4,8 +4,6 @@ module.exports = Flame.ListItemView.extend
 
   classNames: 'arrange-track'
 
-  templateBinding: '^controller.tracks'
-
   handlebars:
     """
     <div class="track-color-bar">
@@ -13,11 +11,11 @@ module.exports = Flame.ListItemView.extend
     </div>
     
     <div class="arrange-track-controls">
-
+      {{log this}}
       <div class="input-append track-controls">
         <input class="track-title" size="8" type="text"
-         {{bindAttr value="content.title"}} /><button
-         {{bindAttr class="armed:active :btn"}}>
+         {{bindAttr value="name"}} /><button
+         {{bindAttr class=":active :btn"}}>
             <span class="icon-play-circle"></span></button><button class="btn">
             <span class="icon-volume-up"></span>
           </button>
