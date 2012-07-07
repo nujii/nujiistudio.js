@@ -120,41 +120,44 @@ module.exports = function(grunt) {
     watch: {
       coffee: {
         files: 'src/**',
-        tasks: 'coffeelint:app coffee:app minispade:app ok'
+        tasks: 'coffeelint:app coffee:app minispade:app mocha reload'
       },
       stylus: {
         files: '<config:stylus.app.src>',
-        tasks: 'stylus:app ok'
+        tasks: 'stylus:app concat:css reload'
       },
       indexhtml: {
         files: 'assets/index.html',
-        tasks: 'copy:html ok'
+        tasks: 'copy:indexhtml mocha reload'
       },
       images: {
         files: 'assets/images/*',
-        tasks: 'copy:images ok'
+        tasks: 'copy:images reload'
       },
       vendorjs: {
         files: 'vendor/javascripts/*',
-        tasks: 'concat:vendor ok'
-      },
-      css: {
-        files: 'tmp/stylsheets/**',
-        tasks: 'concat:css ok'
+        tasks: 'concat:vendor mocha reload'
       },
       test: {
         files: 'test/specs/**',
-        tasks: 'coffeelint:test coffee:test minispade:test ok'
+        tasks: 'coffeelint:test coffee:test minispade:test mocha'
       }
     },
 
+    reload: {
+        port: 3333,
+        proxy: {
+            host: 'localhost',
+            port: 3334
+        }
+    },
+
     mocha: {
-      index: ['test/index.html'],
-      verbose: true
+      index: ['test/nujiistudio-tests.html']
     },
 
     server: {
-      port: 3333,
+      port: 3334,
       base: 'dist'
     }
   });
@@ -162,10 +165,11 @@ module.exports = function(grunt) {
   grunt.loadTasks('tasks');
   grunt.loadNpmTasks('grunt-less');
   grunt.loadNpmTasks('grunt-mocha');
+  grunt.loadNpmTasks('grunt-reload');
   // Default task.
   grunt.registerTask('default', 'coffeelint coffee stylus less copy concat minispade:app');
 
-  grunt.registerTask('dev', 'default server watch');
+  grunt.registerTask('dev', 'default server reload watch');
 
   grunt.registerTask('test', 'default minispade:test mocha');
 

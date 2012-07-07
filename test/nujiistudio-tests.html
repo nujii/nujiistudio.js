@@ -3,30 +3,37 @@
 <head>
     <meta charset="utf-8">
     <title>Nujii Studio Tests</title>
-    <link rel="stylesheet" href="../node_modules/mocha/mocha.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="../node_modules/mocha/mocha.css" type="text/css">
 </head>
 <body>
     <div id="mocha"></div>
 
     <!-- Dependencies -->
     <script src="../dist/javascripts/vendor.js"></script>
-
     <script src="../node_modules/mocha/mocha.js"></script>
-    <script src="../node_modules/chai/chai.js"></script>
+
+    <!-- Setup mocha.  Overriden in PhantomJS env -->
+    <script src="./mocha-helper.js"></script>
     <script>mocha.setup('bdd');</script>
+
+    <!-- Assertion library -->
+    <script src="../node_modules/chai/chai.js"></script>
+
+    <!-- Make chai available to the test cases -->
     <script>minispade.register('chai','(function(){return function(exports, require, module){module.exports = window.chai}}).call(this);');</script>
 
     <!-- App -->
     <script src="../dist/javascripts/nujiistudio.js"></script>
     <!-- App Tests -->
-    <script src="specs.js"></script>
+    <script src="./specs.js"></script>
 
-    <!-- Setup -->
+    <!-- Run Mocha -->
     <script type="text/javascript" charset="utf-8">
         $(function(){
-            mocha.run();
+            // Run the tests 
+            require('test/tests');
 
-            require('test/app_test');
+            mocha.run();
         })
     </script>
 </body>

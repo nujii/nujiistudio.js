@@ -7,13 +7,13 @@ if (typeof document !== "undefined") {
       modules: {},
       loaded: {},
 
-      globalEval: function(data, module) {
+      globalEval: function(data) {
         if ( data ) {
           // We use execScript on Internet Explorer
           // We use an anonymous function so that context is window
           // rather than jQuery in Firefox
           return ( window.execScript || function( data ) {
-            return window[ "eval" ].call( module, data );
+            return window[ "eval" ].call( window, data );
           } )( data );
         }
       },
@@ -28,7 +28,7 @@ if (typeof document !== "undefined") {
             var module = {exports:undefined};
 
             if (typeof mod === "string") {
-              mod = minispade.globalEval(mod, module);
+              mod = minispade.globalEval(mod);
             }
 
             mod(module.exports, minispade.require, module);
