@@ -28,7 +28,7 @@
   },
   "scripts": {
     "start": "grunt dev",
-    "test": "grunt test",
+    "test": "grunt test --verbose",
     "postinstall": "touch ./node_modules/bootstrap/index.js && cp ./node_modules/bootstrap/docs/assets/js/bootstrap.js ./vendor/javascripts/bootstrap.js"
   },
   "dependencies": {
@@ -48,6 +48,7 @@
     "mocha": "0.14.0",
     "chai": "1.1.0",
     "grunt-mocha": "0.1.1",
-    "grunt-reload": "*"
+    "grunt-reload": "*",
+    "grunt-css": "*"
   }
 }
