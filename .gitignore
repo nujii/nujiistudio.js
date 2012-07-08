@@ -26,3 +26,6 @@ npm-debug.log
 tmp/
 
 dist/
+docs/
+test/fixtures.js
+test/specs.js

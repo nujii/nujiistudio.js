@@ -12,8 +12,12 @@
     <script src="../dist/javascripts/vendor.js"></script>
     <script src="../node_modules/mocha/mocha.js"></script>
 
-    <!-- Setup mocha.  Overriden in PhantomJS env -->
-    <script src="./mocha-helper.js"></script>
+    <!-- Bootstrap PhantomJS env -->
+    <script>
+        if(window.PHANTOMJS)
+            document.write('<script src="../node_modules/grunt-mocha/tasks/mocha/mocha-helper.js"><\/script>')
+    </script>
+    <!-- Setup mocha. -->
     <script>mocha.setup('bdd');</script>
 
     <!-- Assertion library -->
@@ -25,13 +29,14 @@
     <!-- App -->
     <script src="../dist/javascripts/nujiistudio.js"></script>
     <!-- App Tests -->
+    <script src="./fixtures.js"></script>
     <script src="./specs.js"></script>
 
     <!-- Run Mocha -->
     <script type="text/javascript" charset="utf-8">
         $(function(){
             // Run the tests 
-            require('test/tests');
+            require('specs/initialize');
 
             mocha.run();
         })

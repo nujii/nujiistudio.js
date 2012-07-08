@@ -1,6 +1,8 @@
-# NujiiStudio.js
+# nujiistudio.js
 
-User interface assets for [Nujii Studio Digital Audio Workstation](http://www.nujii.com). [![Build Status](https://secure.travis-ci.org/nujii/nujiistudio.js.png?branch=development)](http://travis-ci.org/nujii/nujiistudio.js)
+User interface assets for [Nujii Studio Digital Audio Workstation](http://www.nujii.com). 
+
+[![Build Status](https://secure.travis-ci.org/nujii/nujiistudio.js.png?branch=development)](http://travis-ci.org/nujii/nujiistudio.js)
 
 ## Overview
 

@@ -11,7 +11,6 @@ module.exports = Flame.ListItemView.extend
     </div>
     
     <div class="arrange-track-controls">
-      {{log this}}
       <div class="input-append track-controls">
         <input class="track-title" size="8" type="text"
          {{bindAttr value="name"}} /><button

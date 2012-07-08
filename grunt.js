@@ -30,17 +30,24 @@ module.exports = function(grunt) {
         dir: 'src/',
         dest: 'tmp/javascripts'
       },
-      test: {
+      specs: {
         dir: 'test/specs',
-        dest: 'tmp/test'
+        dest: 'tmp/specs'
+      },
+      fixtures: {
+        dir: 'test/fixtures',
+        dest: 'tmp/fixtures'
       }
     },
     coffeelint: {
       app: {
         dir: '<config:coffee.app.dir>'
       },
-      test: {
-        dir: '<config:coffee.test.dir>'
+      specs: {
+        dir: '<config:coffee.specs.dir>'
+      },
+      fixtures: {
+        dir: '<config:coffee.fixtures.dir>'
       }
     },
 
@@ -93,9 +100,14 @@ module.exports = function(grunt) {
         dest: 'tmp/<%= pkg.name %>.js',
         root: 'tmp/javascripts'
       },
-      test: {
-        src: 'tmp/test/**',
+      specs: {
+        src: 'tmp/specs/**',
         dest: 'test/specs.js',
+        root: 'tmp'
+      },
+      fixtures: {
+        src: 'tmp/fixtures/**',
+        dest: 'test/fixtures.js',
         root: 'tmp'
       }
     },
@@ -115,9 +127,12 @@ module.exports = function(grunt) {
               'vendor/javascripts/jquery-1.7.2.js',
               'vendor/javascripts/handlebars-1.0.0.beta.6.js',
               'vendor/javascripts/ember-latest.js',
+              'vendor/javascripts/ember-data-latest.js',
               'vendor/javascripts/flame.js',
               'vendor/javascripts/bootstrap.js',
-              'vendor/javascripts/minispade.js'],
+              'vendor/javascripts/minispade.js',
+              'node_modules/share/webclient/json.uncompressed.js',
+              'node_modules/share/webclient/share.uncompressed.js'],
         dest: 'dist/javascripts/vendor.js'
       },
       vendorcss: {
@@ -164,31 +179,41 @@ module.exports = function(grunt) {
     watch: {
       coffee: {
         files: 'src/**',
-        tasks: 'app-js mocha'
+        tasks: 'app-js mocha reload'
       },
       stylus: {
         files: '<config:stylus.app.src>',
-        tasks: 'app-css'
+        tasks: 'app-css reload'
       },
       indexhtml: {
         files: 'assets/index.html',
-        tasks: 'app-html'
+        tasks: 'app-html reload'
       },
       images: {
         files: 'assets/images/*',
-        tasks: 'app-images'
+        tasks: 'app-images reload'
       },
       vendorjs: {
         files: 'vendor/javascripts/*',
-        tasks: 'vendor-js mocha'
+        tasks: 'vendor-js mocha reload'
       },
-      test: {
+      specs: {
         files: 'test/specs/**',
-        tasks: 'build-tests mocha'
+        tasks: 'build-specs mocha'
       },
-      dist: {
-        files: 'dist/**',
-        tasks: 'reload'
+      fixtures: {
+        files: 'test/fixtures/**',
+        tasks: 'build-fixtures mocha'
+      }
+    },
+
+    //Docs
+    docco: {
+      app: {
+        src: 'src/**'
+      },
+      tests: {
+        src: 'test/specs/**'
       }
     }
   });
@@ -198,18 +223,24 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-less');
   grunt.loadNpmTasks('grunt-mocha');
   grunt.loadNpmTasks('grunt-reload');
+  grunt.loadNpmTasks('grunt-docco');
 
   // Build Tasks
-  grunt.registerTask('app-js', 'coffeelint:app coffee:app minispade:app concat:js');
+  grunt.registerTask('app-js', 'coffeelint:app coffee:app '+
+                               'minispade:app concat:js');
   grunt.registerTask('app-css', 'stylus:app concat:css csslint:app');
   grunt.registerTask('app-html', 'copy:indexhtml');
   grunt.registerTask('app-images', 'copy:images');
   grunt.registerTask('vendor-js', 'concat:vendor');
-  grunt.registerTask('vendor-css', 'copy:flamecss less:bootstrap concat:vendorcss');
-  grunt.registerTask('build-all', 'app-js app-css app-html app-images vendor-js vendor-css');
+  grunt.registerTask('vendor-css', 'copy:flamecss less:bootstrap '+
+                                   'concat:vendorcss');
+  grunt.registerTask('build-all', 'app-js app-css app-html app-images '+
+                                  'vendor-js vendor-css');
 
   // Tests
-  grunt.registerTask('build-tests', 'coffeelint:test coffee:test minispade:test');
+  grunt.registerTask('build-specs', 'coffeelint:specs coffee:specs minispade:specs');
+  grunt.registerTask('build-fixtures', 'coffeelint:fixtures coffee:fixtures minispade:fixtures');
+  grunt.registerTask('build-tests', 'build-specs build-fixtures');
   grunt.registerTask('test', 'build-all build-tests mocha');
 
   // Main Tasks

@@ -32,7 +32,7 @@ module.exports = function(grunt) {
 
       id = path.relative(path.resolve(root), path.resolve(filepath)).replace('.js','');
 
-      code = JSON.stringify("(function(){return function(exports, require, module) { " + code + "}}).call(this); //@ sourceURL="+id+".js");
+      code = JSON.stringify("(function(){return function(exports, require, module) { " + code + "}}).call(this); //@ sourceURL=/"+id+".js");
       ret += "minispade.register('"+id+"',"+code+");";
       return ret;
 

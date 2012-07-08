@@ -1,5 +1,7 @@
 
 module.exports =
+  # This function is kind of a hack (but a cool one)
+  # to find the width of the browser's scrollbar
   scrollBarWidth: ()->
     wNoScroll = 0
     wScroll = 0
