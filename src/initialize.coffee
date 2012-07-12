@@ -3,6 +3,7 @@ window.App = App = require 'app'
 
 # Setup the router
 App.Router = require 'router'
+require 'lib/sharejs-adapter'
 
 # Require the different components
 #require 'templates'

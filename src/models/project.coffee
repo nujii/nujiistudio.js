@@ -24,17 +24,13 @@ module.exports = DS.Model.extend
   collaborators: DS.hasMany (require 'models/user')
 
   # Global Automation Layers
-  tempos: DS.hasMany (require 'models/tempo'),
-    embedded: true
-  timesignatures: DS.hasMany (require 'models/time_signature'),
-    embedded: true
+  tempos: DS.hasMany (require 'models/tempo')
+  timesignatures: DS.hasMany (require 'models/time-signature')
 
-  tracks: DS.hasMany (require 'models/track'),
-    embedded: true
+  tracks: DS.hasMany (require 'models/track')
 
   # Clips to which the project has access
-  clips: DS.hasMany (require 'models/clip'),
-    embedded: true
+  clips: DS.hasMany (require 'models/clip')
 
   # ##Functions
   

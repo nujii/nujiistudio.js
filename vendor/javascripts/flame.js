@@ -940,17 +940,11 @@ Flame.TableViewContentAdapter = Ember.Object.extend({
         var headers = this.get('headers');
         var rowHeaders = headers.rowHeaders;
         var rowHeadersLength = rowHeaders.length;
+        var i;
         for (i = 0; i < rowHeadersLength; i++) {
             this._processHeader(rowHeaderRows, rowHeaders[i], 'rows', 0, i === 0);
         }
 
-        var maxDepth = 0;
-        for (i = 0; i < this.get('rowLeafs').length; i++) {
-            var depth = this.get('rowLeafs')[i].depth;
-            if (depth > maxDepth) {
-                maxDepth = depth;
-            }
-        }
         rowHeaderRows.maxDepth = this.get('rowLeafs').map(function (x) { return x.depth; }).max();
         for (i = 0; i < this.get('rowLeafs').length; i++) {
             var rowLeaf = this.get('rowLeafs')[i];
@@ -966,19 +960,10 @@ Flame.TableViewContentAdapter = Ember.Object.extend({
     },
 
     /**
-      This function does three things:
-
-        1. If the header has a 'ref' property, look up the Field and set the
-           the label so that .get('label') works like other header fields.
-           We need the Field instance itself so it can be referenced by Cells
-           at a later point.
-
-        2. Calculate the colspan (rowspan) attribute to be used when rendering.
-           Rowspan (colspan) will be calculated later on.
-
-
-        3. Store the headers in a structure similar to the way they will be rendered,
-           i.e. (for column headers) an array of rows where each row is an array of cells.
+      Calculate the colspan (rowspan) attribute to be used when rendering.
+      Rowspan (colspan) will be calculated later on.
+      Store the headers in a structure similar to the way they will be rendered,
+      i.e. (for column headers) an array of rows where each row is an array of cells.
     */
     _processHeader: function(headerRows, header, type, depth, isFirst) {
         header.depth = depth + 1;
@@ -1010,7 +995,6 @@ Flame.TableViewContentAdapter = Ember.Object.extend({
 
         return count;
     }
-
 });
 /*jshint loopfunc: true */
 
@@ -1116,16 +1100,15 @@ Flame.Statechart = {
         }
     }
 };
-
-/*
+/**
   A controller that you need to use when displaying an Flame.TableView. You need to
   define _headers property and call pushDataBatch to render data (can be called
   several times to render data in batches). The headers should be Flame.TableHeader
   objects.
 
-  There's two refined subclasses of this controller, DataTableController and
+  There are two refined subclasses of this controller, DataTableController and
   ArrayTableController, which you may find easier to use for simple tables.
- */
+*/
 
 Flame.TableController = Ember.Object.extend({
     dirtyCells: [],
@@ -1187,7 +1170,7 @@ Flame.TableController = Ember.Object.extend({
         var columnLeafs = this.get('columnLeafs');
         var columnLeafsLen = columnLeafs.length;
 
-        var i,j;
+        var i, j;
         var rowCell, colCell;
         var rowMapping;
         for (i = 0; i < rowLeafsLen; i++) {
@@ -1195,10 +1178,9 @@ Flame.TableController = Ember.Object.extend({
             rowMapping = mapping[rowCell.path] = {};
             for (j = 0; j < columnLeafsLen; j++) {
                 colCell = columnLeafs[j];
-                rowMapping[colCell.path] = [i,j];
+                rowMapping[colCell.path] = [i, j];
             }
         }
-
         return mapping;
     }.property("rowLeafs", "columnLeafs").cacheable(),
 
@@ -1231,7 +1213,8 @@ Flame.TableController = Ember.Object.extend({
     _getLeafs: function(nodes, path) {
         var node, length = nodes.length;
         var leafs = [];
-        for (var i = 0; i < length; i++) {
+        var i;
+        for (i = 0; i < length; i++) {
             node = nodes[i];
             if (node.hasOwnProperty('children')) {
                 var newPath = node.hasOwnProperty('id') ? path.concat(node.id) : path;
@@ -1242,9 +1225,8 @@ Flame.TableController = Ember.Object.extend({
             }
         }
         // Mark the leaf index
-        for(i = 0; i < leafs.length; i++) {
-            node = leafs[i];
-            node.leafIndex = i;
+        for (i = 0; i < leafs.length; i++) {
+            leafs[i].leafIndex = i;
         }
         return leafs;
     },
@@ -1268,7 +1250,6 @@ Flame.TableController = Ember.Object.extend({
             this.set('_data', data);
         }
     }.observes('_headers')
-
 });
 
 
@@ -4968,6 +4949,7 @@ Flame.TabView = Flame.View.extend({
 Flame.TableDataView = Flame.View.extend(Flame.Statechart, {
     classNames: ['flame-table-data-view'],
     acceptsKeyResponder: true,
+    batchUpdates: true,
     updateBatchSize: 500,
     _updateCounter: 0,
     selectedCell: null,
@@ -5083,7 +5065,7 @@ Flame.TableDataView = Flame.View.extend(Flame.Statechart, {
         // We need to use the keyPress event, as some browsers don't report the character pressed correctly with keyDown
         keyPress: function(event) {
             var dataCell = this.getPath('owner.selectedDataCell');
-            if (!dataCell.isEditable()) {
+            if (Ember.none(dataCell) || (dataCell && !dataCell.isEditable())) {
                 return false;
             }
             var key = String.fromCharCode(event.which);
@@ -5104,10 +5086,6 @@ Flame.TableDataView = Flame.View.extend(Flame.Statechart, {
 
     // Used to allow users to select text from read-only cells
     selectingReadOnly: Flame.State.extend({
-        keyPress: function(event) {
-            return true;
-        },
-
         cancel: function(event) {
             this.get('owner')._cancelEditingOrSelecting();
             return true;
@@ -5501,7 +5479,8 @@ Flame.TableDataView = Flame.View.extend(Flame.Statechart, {
         // Everyone expects that the cellRefs array is empty when we return from this function. We still need the
         // content so save it elsewhere.
         var content = cellRefs.splice(0, cellRefs.length);
-        this._batchUpdate(this.get("updateBatchSize"), 0, updateCounter, content, data, allCells, callback);
+        var updateBatchSize = this.get('batchUpdates') ? this.get('updateBatchSize') : -1;
+        this._batchUpdate(updateBatchSize, 0, updateCounter, content, data, allCells, callback);
     },
 
     _batchUpdate: function(maxUpdates, startIx, updateCounter, cellRefs, data, allCells, callback) {
@@ -5511,8 +5490,10 @@ Flame.TableDataView = Flame.View.extend(Flame.Statechart, {
         var len = cellRefs.length;
         var element, index, cell;
         var columnLength = data[0].length;
+        // If maxUpdates is -1, we fetch everything in one batch
+        var upTo = maxUpdates === -1 ? len : maxUpdates;
 
-        for (var i = startIx; i < len && (i - startIx) < maxUpdates; i++) {
+        for (var i = startIx; i < len && (i - startIx) < upTo; i++) {
             index = cellRefs[i];
             var x = index[0], y = index[1];
             cell = data[x][y];
@@ -5530,7 +5511,6 @@ Flame.TableDataView = Flame.View.extend(Flame.Statechart, {
             });
         }
     }
-
 });
 
 Flame.TableView = Flame.View.extend(Flame.Statechart, {
@@ -5558,6 +5538,7 @@ Flame.TableView = Flame.View.extend(Flame.Statechart, {
     resizeDelegate: null,
     content: null,  // Set to a Flame.TableController
     allowRefresh: true,
+    batchUpdates: true,
 
     contentAdapter: function() {
         return Flame.TableViewContentAdapter.create({
@@ -5572,7 +5553,8 @@ Flame.TableView = Flame.View.extend(Flame.Statechart, {
         totalRowIdsBinding: '^content.totalRowIds',
         totalColumnIdsBinding: '^content.totalColumnIds',
         cellUpdateDelegateBinding: '^cellUpdateDelegate',
-        cellsMarkedForUpdateBinding: '^content.cellsMarkedForUpdate'
+        cellsMarkedForUpdateBinding: '^content.cellsMarkedForUpdate',
+        batchUpdatesBinding: '^batchUpdates'
     }),
 
     rowDepth: function() {
@@ -6568,4 +6550,4 @@ Flame.Validator.number = Flame.Validator.create({
         return (value === '') || !(isNaN(value) || isNaN(parseFloat(value)));
     }
 });
-Flame.VERSION = '0.2.1-66-gdc3ac90';
+Flame.VERSION = '0.2.1-70-gdba9f82';

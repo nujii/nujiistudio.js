@@ -16,15 +16,17 @@ module.exports = DS.Model.extend
 
   # ##Relationships
 
-  # Let's get the basics working first
+  # ###Reverse Relationships
 
-  #plugins: DS.hasMany (require 'models/plugin'),
-  #  embedded: true
-  #automationLayers: DS.hasMany (require 'models/automation_layer'),
-  #  embedded: true
-  
-  regions: DS.hasMany (require 'models/region'),
-    embedded: true
+  # This has to be a function to avoid a circular dependency
+  project: ->
+    DS.belongsTo (require 'models/project')
+
+  # ###Forward Relationships
+
+  plugins: DS.hasMany (require 'models/plugin')
+  automationLayers: DS.hasMany (require 'models/automation-layer')
+  regions: DS.hasMany (require 'models/region')
 
   # ##Functions
 

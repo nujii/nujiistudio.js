@@ -189,3 +189,38 @@ module.exports = DS.Adapter.extend
     else
       store.load type, value
 
+DS.Adapter.extend
+
+  root: null
+
+  find: (store, type, id) ->
+    Ember.assert('A root document needs to be open', @root) if not type.isRoot
+    path = @pathForIDAndType id, type
+
+  findMany: (store, type, ids) ->
+    Ember.assert 'Multiple root documents cannot be open at once', !!type.isRoot
+
+  findAll: (store, type) ->
+    Ember.assert 'Multiple root documents cannot be open at once', !!type.isRoot
+
+  findQuery: (store, type, query, array) ->
+    Ember.assert 'Root documents cannot be queried', !!type.isRoot
+
+  createRecord: (store, type, record) ->
+    Ember.assert 'You cannot create a root document from here', !!type.isRoot
+    fixture = @mockJSON(type, record)
+    fixture.id = @generateIdForRecord(store, record)
+    @simulateRemoteCall (->
+      store.didCreateRecord record, fixture
+    ), store, type, record
+
+  updateRecord: (store, type, record) ->
+    fixture = @mockJSON(type, record)
+    @simulateRemoteCall (->
+      store.didUpdateRecord record, fixture
+    ), store, type, record
+
+  deleteRecord: (store, type, record) ->
+    @simulateRemoteCall (->
+      store.didDeleteRecord record
+    ), store, type, record

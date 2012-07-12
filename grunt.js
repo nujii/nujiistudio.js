@@ -166,7 +166,7 @@ module.exports = function(grunt) {
 
     // Development
     mocha: {
-      index: 'test/nujiistudio-tests.html'
+      index: 'test/index.html'
     },
     server: {
       port: 3333,

@@ -14,5 +14,6 @@ module.exports = DS.Model.extend
   # it easier for recording
   tempoShift: DS.attr 'number'
 
-  # Each session has a project
-  project: DS.hasOne (require 'models/project')
+  # Each session has a project.
+  # This is broken right now...
+  # project: DS.hasOne (require 'models/project')
