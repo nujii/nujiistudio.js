@@ -18,13 +18,17 @@ module.exports = Flame.VerticalSplitView.extend
 
     classNames: 'arrange-controls'
 
+    addTrack: ()->
+      App.router.tracksController.addTrack()
+
     handlebars:
       """
       <div class="buttons">
       <button type="button" class="btn btn-mini">
         <span class="icon-align-justify icon-white"></span>
       </button>
-      <button {{action controller.addTrack}} type="button" class="btn btn-mini">
+      <button {{action addTrack}} type="button"
+          class="btn btn-mini">
         <span class="icon-plus icon-white"></span>
       </button>
     </div>
@@ -64,6 +68,32 @@ module.exports = Flame.VerticalSplitView.extend
 
       classNames: 'arrange-timeline'
 
+      childViews: 'playheadCursorView'.w()
+
       handlebars:
         """
         """
+
+      playheadCursorView: Flame.View.extend
+        layout:
+          top: 0
+          bottom: 0
+          width: 10
+
+        classNames: 'playheadCursor'
+
+        didInsertElement: ()->
+          layout = @get 'layout'
+          id = @get('elementId')
+          $elem = $('#'+id)
+
+          updateCursor = (location)->
+            $elem.css 'left', location-layout.width/2
+
+          updateCursor()
+
+          # For some reason the Flame.js layout doesn't observe changes.
+          # We'll do this until we figure out a better way.
+
+          App.transport.addObserver 'playhead', $elem, ()->
+            updateCursor App.transport.get 'playhead'

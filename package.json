@@ -29,7 +29,7 @@
   "scripts": {
     "start": "grunt dev",
     "test": "grunt test --verbose",
-    "postinstall": "touch ./node_modules/bootstrap/index.js && cp ./node_modules/bootstrap/docs/assets/js/bootstrap.js ./vendor/javascripts/bootstrap.js"
+    "postinstall": "touch ./node_modules/bootstrap/index.js && cp ./node_modules/bootstrap/docs/assets/js/bootstrap.js ./vendor/javascripts/bootstrap-2.0.4.js"
   },
   "dependencies": {
     "grunt": "~0.3.11",

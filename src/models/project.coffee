@@ -1,19 +1,28 @@
 # This object represents a project in Nujii Studio
 
-module.exports = DS.Model.extend
+Base = require 'models/base'
+
+module.exports = Project = Base.extend
   # ##Properties
 
   title: DS.attr 'string'
   created: DS.attr 'date'
   isPublic: DS.attr 'boolean'
+  
+  length: 0
 
   # ##Computed Properties
   
   # Iterate over the tracks and return the longest track.
-  length: (()->
+  findLength: ()->
     # TODO We're returning 0 for now
-    0
-  ).property 'tracks'
+    maxLength = 0
+    tracks = @get('tracks').toArray()
+    for track in tracks
+      newLength = track.get('length')
+      maxLength = newLength if newLength > maxLength
+    
+    @set 'length', maxLength
 
   # ##Relationships
   
@@ -36,8 +45,8 @@ module.exports = DS.Model.extend
   
   # ###Track Functions
 
-  # TODO
   addTrack: (defaults = {})->
+    @addRelObject require('models/track'), defaults, 'tracks', 'project'
 
   # TODO
   removeTrack: (track)->
@@ -61,4 +70,16 @@ module.exports = DS.Model.extend
   removeCollaborator: (user)->
     Ember.assert 'User must not be null', !!user
 
+# Reopen the class to describe the type
+Project.reopenClass
+  # ##Type Properties
+  isRoot: true
+  path: 'info'
 
+  # ##Type default values
+  defaults:
+    info:
+      title: 'New Project'
+    tracks: {}
+    regions: {}
+    clips: {}

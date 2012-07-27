@@ -2,10 +2,6 @@
 
 @import 'mixins'
 
-arrange-header-height = 27px
-initial-sidebar-width = 250px
-initial-plugin-width = 200px
-
 .btn
   cursor default
 
@@ -38,9 +34,6 @@ initial-plugin-width = 200px
   overflow: visible
 
 .arrange-pluginheader
-  float left
-  height arrange-header-height
-  width initial-plugin-width
   position relative
   z-index 99
 
@@ -64,11 +57,10 @@ initial-plugin-width = 200px
 
     .track-color-bar
       absolute top left
-      height 100%
       width 10px
 
-    .track-title
-      width 100px
+    .track-button-group
+      absolute top left 104px
 
     .track-controls
       absolute left 15px top 10px right 30px
@@ -79,23 +71,21 @@ initial-plugin-width = 200px
     .lock-button
       absolute right 24px top 46px
 
-.arrange-pluginlist
-  float left
-  height 896px
-  width initial-plugin-width
-  z-index 96
-
-.arrange-content
+.arrange-content-wrapper
 
   overflow-x scroll
   overflow-y auto
 
   -webkit-overflow-scrolling: touch
 
-  .track-content
-    height 75px
-    width 1200px
+  .arrange-content
+    padding-left 5px
+    overflow visible
+    min-width 100%
 
-    img
-      height 100%
-      width 100%
+    .track-content
+      height 75px
+      width: 100%
+      position relative
+
+      overflow visible

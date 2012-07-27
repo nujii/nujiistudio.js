@@ -1,38 +1,36 @@
  
-module.exports = Em.Controller.extend
-  
-  tracks: [
-    title: 'Audio Track'
-  ,
-    title: 'Audio Track 2'
-  ,
-    title: 'Audio Track 3'
-  ,
-    title: 'Audio Track 4'
-  ,
-    title: 'Audio Track 5'
-  ,
-    title: 'Audio Track 6'
-  ,
-    title: 'Audio Track 7'
-  ,
-    title: 'Audio Track 8'
-  ,
-    title: 'Audio Track 9'
-  ,
-    title: 'Audio Track 10'
-  ,
-    title: 'Audio Track 11'
-  ,
-    title: 'Audio Track 12'
-  ,
-    title: 'Audio Track 13'
-  ,
-    title: 'Audio Track 14'
-  ,
-    title: 'Audio Track 15'
-  ,
-    title: 'Audio Track 16'
-  ,
-    title: 'Audio Track 17'
-  ]
+App = require 'app'
+
+module.exports = Em.ArrayController.extend
+
+  content: (()->
+    return App.router.applicationController.get('tracks') if App.router
+    return DS.RecordArray.create()
+  ).property()
+
+  addTrack: ()->
+    App.project.addTrack()
+    App.store.commit()
+
+  addTestRegion: (track)->
+    clip = require('models/clip').createRecord()
+    track.addRegion clip,
+      begin: 0
+      end: 600
+      position: 0
+    App.store.commit()
+
+  toggleArm: (track)->
+    track.set 'isArmed', !track.get 'isArmed'
+    track.store.commit()
+
+  toggleLock: (track)->
+    track.set 'isLocked', !track.get 'isLocked'
+    track.store.commit()
+
+  titleChanged: (track)->
+    App.store.commit()
+
+  didReorderContent: ()->
+    App.project.changeVersion()
+    App.store.commit()

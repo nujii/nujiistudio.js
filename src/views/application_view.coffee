@@ -3,7 +3,7 @@ module.exports = Flame.RootView.extend
 
   classNames: 'rootView'
   
-  childViews: 'controlView arrangeHeaderView arrangeView'.w()
+  childViews: 'controlView globalView arrangeHeaderView arrangeView'.w()
 
   layoutManager: Flame.VerticalStackLayoutManager.create
     topMargin: 0
@@ -11,6 +11,8 @@ module.exports = Flame.RootView.extend
     bottomMargin: 0
 
   controlView: require 'views/control_view'
+
+  globalView: require 'views/global_view'
 
   arrangeHeaderView: require 'views/arrange_header_view'
 
