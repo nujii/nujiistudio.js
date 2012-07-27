@@ -1,5 +1,12 @@
 
 module.exports =
+
+  pxToSec: (px, scale)->
+    px/scale
+
+  secToPx: (sec, scale)->
+    sec*scale
+
   # This function is kind of a hack (but a cool one)
   # to find the width of the browser's scrollbar
   scrollBarWidth: ()->
@@ -38,3 +45,10 @@ module.exports =
 
     # Pixel width of the scroller
     (wNoScroll - wScroll)
+
+  guidGenerator: ->
+    S4 = ->
+      (((1 + Math.random()) * 0x10000) | 0).toString(16).substring 1
+
+    S4() + S4() + "-" + S4() + "-" + S4() +
+    "-" + S4() + "-" + S4() + S4() + S4()

@@ -65,8 +65,7 @@ module.exports = function(grunt) {
           'important': false,
           'duplicate-properties': false,
           'compatible-vendor-prefixes': false,
-          'adjoining-classes': false,
-          'zero-units': false
+          'adjoining-classes': false
         }
       }
     },
@@ -128,11 +127,12 @@ module.exports = function(grunt) {
               'vendor/javascripts/handlebars-1.0.0.beta.6.js',
               'vendor/javascripts/ember-latest.js',
               'vendor/javascripts/ember-data-latest.js',
-              'vendor/javascripts/flame.js',
-              'vendor/javascripts/bootstrap.js',
+              'vendor/javascripts/flame-latest.js',
+              'vendor/javascripts/bootstrap-2.0.4.js',
               'vendor/javascripts/minispade.js',
-              'node_modules/share/webclient/json.uncompressed.js',
-              'node_modules/share/webclient/share.uncompressed.js'],
+              'vendor/javascripts/sockjs-0.3.2.js',
+              'vendor/javascripts/share-0.5.0-pre.js',
+              'vendor/javascripts/share.json.js'],
         dest: 'dist/javascripts/vendor.js'
       },
       vendorcss: {
@@ -169,8 +169,8 @@ module.exports = function(grunt) {
       index: 'test/index.html'
     },
     server: {
-      port: 3333,
-      base: 'dist'
+      port: 3333//,
+      //base: 'dist'
     },
     reload: {
       port: 35729,

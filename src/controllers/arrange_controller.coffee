@@ -1,5 +1,9 @@
 
 module.exports = Em.Controller.extend
-  title: (()->
-    return 'Test'
-  ).property('title')
+
+  scale: 1
+
+  zoomIn: ->
+    @set 'scale', @get('scale')*1.5
+  zoomOut: ->
+    @set 'scale', @get('scale')/1.5

@@ -1,26 +1,39 @@
 
-module.exports = DS.Model.extend
+Base = require 'models/base'
+
+module.exports = Track = Base.extend
   # ##Properties
 
   title: DS.attr 'string'
   color: DS.attr 'string'
   isLocked: DS.attr 'boolean'
   isMuted: DS.attr 'boolean'
+  _version: DS.attr 'string'
 
   # ##Computed Properties
 
-  length: (()->
+  length: 0
+
+  findLength: ()->
     # Find the region with the greatest 'offset+length'
-    0
-  ).property 'regions'
+    longest = 0
+    for region in @get('regions').toArray()
+      newLongest = region.get('endPosition')
+      longest = newLongest if newLongest > longest
+    @set 'length',longest
+
+    @get('project').findLength()
+
+  isEditable: (()->
+    !@.get 'isLocked'
+  ).property 'isLocked'
 
   # ##Relationships
 
   # ###Reverse Relationships
 
   # This has to be a function to avoid a circular dependency
-  project: ->
-    DS.belongsTo (require 'models/project')
+  project: DS.belongsTo 'App.Project'
 
   # ###Forward Relationships
 
@@ -34,9 +47,23 @@ module.exports = DS.Model.extend
 
   # TODO
   addRegion: (clip, defaults={})->
+    newRegion =
+      @addRelObject require('models/region'), defaults, 'regions', 'track'
+    newRegion.set 'clip', newRegion
 
   # TODO
   removeRegion: (region)->
+
+
+  moveRegionToTrack: (region)->
+    parentTrack = region.get 'track'
+    if parentTrack != @
+      parentTrack.get('regions').removeObject region
+      region.set 'track', @
+      @get('regions').pushObject region
+      #Hack for the relationship bug
+      parentTrack.changeVersion()
+      @changeVersion()
 
   # ###Plugin Functions
 
@@ -54,3 +81,7 @@ module.exports = DS.Model.extend
   # TODO
   removeAutomationLayer: (layer)->
 
+# Reopen the class to describe the type
+Track.reopenClass
+  # ##Type Properties
+  path: 'tracks'

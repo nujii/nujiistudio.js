@@ -34,12 +34,12 @@ module.exports = Flame.VerticalSplitView.extend
   didInsertElement: ()->
     that = @
     sidebar = $(@$('.arrange-sidebar')[0])
-    content = $(@$('.arrange-content')[0])
+    content = $(@$('.arrange-content-wrapper')[0])
     @watchScroll content, sidebar, true
     @watchScroll sidebar, content
 
   watchScroll: (firstElem, secondElem, moveHorizontal)->
-    scrollScale = 10
+    scrollScale = 3
     firstElem.on 'mousewheel', (e)->
       if e.originalEvent.wheelDeltaY
         e.preventDefault()

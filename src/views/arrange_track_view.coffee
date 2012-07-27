@@ -4,20 +4,39 @@ module.exports = Flame.ListItemView.extend
 
   classNames: 'arrange-track'
 
+  templateContext: ((key, value) ->
+    this.get('content')
+  ).property('content').cacheable()
+
+  toggleArm: ()->
+    track = this.get 'content'
+    #@get('target').toggleArm track
+    @get('target').addTestRegion track
+
+  toggleLock: ()->
+    track = this.get 'content'
+    @get('target').toggleLock track
+
+  targetBinding: '^controller'
+
   handlebars:
     """
     <div class="track-color-bar">
         <a class="caret" data-toggle="collapse" data-target="#test"></a>
     </div>
-    
     <div class="arrange-track-controls">
       <div class="input-append track-controls">
-        <input class="track-title" size="8" type="text"
-         {{bindAttr value="name"}} /><button
-         {{bindAttr class=":active :btn"}}>
+        {{view App.ArrangeTrackTextFieldView
+               isEditableBinding="isEditable"
+               valueBinding="title"
+               placeholder="Untitled Track"}}
+
+        <span class="track-button-group">
+          <button {{bindAttr class="isArmed:active :btn"}} {{action toggleArm}}>
             <span class="icon-play-circle"></span></button><button class="btn">
             <span class="icon-volume-up"></span>
           </button>
+        </span>
       </div>
 
       <div class="btn-group audio-controls">
@@ -29,7 +48,8 @@ module.exports = Flame.ListItemView.extend
         </button>
       </div>
 
-      <button class="btn btn-small lock-button">
+      <button {{bindAttr class="isLocked:active :btn :btn-small :lock-button"}}
+          {{action toggleLock}}>
         <span class="icon-lock"></span>
       </button>
     </div>

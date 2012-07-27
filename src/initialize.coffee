@@ -11,5 +11,15 @@ require 'models'
 require 'controllers'
 require 'views'
 
+# Add the data store
+Adapter = require 'lib/sharejs-adapter'
+Project = require 'models/project'
+
+App.store = DS.Store.create
+  revision: 4
+  adapter: Adapter.create()
+
+App.transport = (require 'lib/backend/transport').create()
+
 # Initialize the Ember application
 App.initialize()
