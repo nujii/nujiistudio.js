@@ -11,7 +11,7 @@ module.exports = Em.Controller.extend
     # This is where we set the adapter
     @set 'timeline', Timeline.create adapter: Ludwig
     # Hardcoded for now
-    @loadProject '4'
+    @loadProject 'test'
 
   loadProject: (id)->
     project = require('models/project').find id

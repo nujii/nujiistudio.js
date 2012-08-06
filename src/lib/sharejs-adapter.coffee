@@ -5,7 +5,7 @@ module.exports = DS.Adapter.extend
 
   # ###Public
 
-  host: "http://#{window.location.hostname || 'localhost'}:8000/sockjs"
+  host: "http://#{window.location.hostname || 'localhost'}:8080/sockjs"
 
   find: (store, type, id) ->
     if type.isRoot and @rootID != id

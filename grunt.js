@@ -244,7 +244,7 @@ module.exports = function(grunt) {
   grunt.registerTask('test', 'build-all build-tests mocha');
 
   // Main Tasks
-  grunt.registerTask('dev', 'build-all build-tests server reload watch');
+  grunt.registerTask('dev', 'build-all build-tests server watch');
   grunt.registerTask('prod', 'build-all cssmin min');
 
   // Default task
